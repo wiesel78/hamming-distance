@@ -1,0 +1,60 @@
+<script type="text/javascript">
+    window.onload = function(){
+        hamming();
+    }
+    
+    function hamming(){
+        var str1 = document.getElementById('in1').value;
+        var str2 = document.getElementById('in2').value;
+        var out1 = document.getElementById('out1');
+        out1.innerHTML = hammingDistanceFromString(str1, str2);
+    }
+    
+    function hammingDistanceFromString(str1, str2){
+        var distance = 0;
+        var chr1, chr2;
+        
+        while(str1.length > 0 || str2.length > 0){
+            chr1 = parseInt(getLastPlace(str1),16);
+            chr2 = parseInt(getLastPlace(str2),16);
+            
+            distance += hammingDistance(chr1, chr2);
+            
+            str1 = str1.slice(0, str1.length-1);
+            str2 = str2.slice(0, str2.length-1);
+        }
+    
+        return distance;
+    }
+    
+    function hammingDistance(num1, num2){
+        var distance = 0;
+        var xor = num1 ^ num2;
+        
+        while (xor > 0){
+            if((xor & 1) == 1){
+                distance++;
+            }
+        
+            xor = xor >> 1;
+        }
+        
+        return distance;
+    }
+    
+    function getLastChar(str){
+        return str.charAt(str.length-1);
+    }
+    
+    function getLastPlace(str){
+        if(str != ""){
+            return getLastChar(str);
+        }else{
+            return "0";
+        }
+    }
+</script>
+
+HEX-1 <input type="text" id="in1" value="ff" onkeyup="hamming()"/><br>
+HEX-2 <input type="text" id="in2" value="ee" onkeyup="hamming()"/><br>
+Hamming Distance : <span id="out1"></span>
